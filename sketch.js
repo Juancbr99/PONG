@@ -102,13 +102,13 @@ function setup() {
     if (windowWidth < 600) {
         // Botón de arriba
         botonArriba = createButton('↑');
-        botonArriba.size(40, 40);
+        botonArriba.size(30, 30);  // Tamaño reducido
         botonArriba.mousePressed(moverArriba);
         botonArriba.hide();  // Inicialmente oculto
 
         // Botón de abajo
         botonAbajo = createButton('↓');
-        botonAbajo.size(40, 40);
+        botonAbajo.size(30, 30);  // Tamaño reducido
         botonAbajo.mousePressed(moverAbajo);
         botonAbajo.hide();  // Inicialmente oculto
     }
@@ -141,8 +141,8 @@ function draw() {
     if (windowWidth < 600) {
         botonArriba.show();
         botonAbajo.show();
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 50);  // Ajustado aquí
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + 10);  // Ajustado aquí
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY - 40);  // Ajustado aquí
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY + altoRaqueta + 10);  // Ajustado aquí
     }
 }
 
@@ -171,8 +171,8 @@ function windowResized() {
 
     // Ajuste de la posición de los botones para el movimiento en dispositivos móviles
     if (windowWidth < 600) {
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 50);  // Ajustado aquí
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + 10);  // Ajustado aquí
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY - 40);  // Ajustado aquí
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY + altoRaqueta + 10);  // Ajustado aquí
     }
 }
 

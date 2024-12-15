@@ -62,6 +62,7 @@ function setup() {
     resetPelota();
     tiempoInicial = millis();
 
+    // Botones y controles
     botonReinicio = createButton('Reiniciar');
     botonReinicio.position((width - botonReinicio.width) / 2, height - margenVertical - 40);
     botonReinicio.mousePressed(resetPartida);
@@ -101,14 +102,14 @@ function setup() {
     if (windowWidth < 600) {
         // Botón de arriba
         botonArriba = createButton('↑');
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);  // Ajustado aquí
         botonArriba.size(40, 40);
         botonArriba.mousePressed(moverArriba);
         botonArriba.hide();  // Inicialmente oculto
 
         // Botón de abajo
         botonAbajo = createButton('↓');
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);  // Ajustado aquí
         botonAbajo.size(40, 40);
         botonAbajo.mousePressed(moverAbajo);
         botonAbajo.hide();  // Inicialmente oculto
@@ -167,10 +168,13 @@ function windowResized() {
     botonMenu.position((width - botonMenu.width) / 2, height - margenVertical - 80);
     if (botonIniciar) botonIniciar.position((width - botonIniciar.width) / 2, height / 2 + 40);
     botonPausa.position(margenLateral, margenVertical);
-    
+
+    // Alineación de botones de movimiento para móviles
     if (windowWidth < 600) {
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);
+        // Ajustamos la posición vertical de los botones de movimiento
+        let distanciaBotones = 40;  // Espacio entre los botones de arriba y abajo
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40 - distanciaBotones);
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + distanciaBotones);
     }
 }
 

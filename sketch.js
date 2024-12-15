@@ -1,8 +1,8 @@
 let anchoCanvas;
 let altoCanvas;
 
-let margenLateral = 20; 
-let margenVertical = 20; 
+let margenLateral = 20;
+let margenVertical = 20;
 
 let jugadorX;
 let jugadorY;
@@ -31,17 +31,20 @@ let sonidoRebote;
 let sonidoGol;
 
 let tiempoInicial;
-let duracionPartida = 2.5 * 60 * 1000; 
+let duracionPartida = 2.5 * 60 * 1000;
 
 let botonReinicio;
-let botonMenu; 
-let botonPausa; 
+let botonMenu;
+let botonPausa;
 
-let estadoJuego = "menu"; 
+let estadoJuego = "menu";
 let botonIniciar;
-let juegoPausado = false; 
+let juegoPausado = false;
 
-let jugadorUltimaPosicionY; 
+let jugadorUltimaPosicionY;
+
+let botonArriba;
+let botonAbajo;
 
 function preload() {
     fondo = loadImage('Imagenes/fondo1.png');
@@ -57,7 +60,7 @@ function setup() {
     jugadorY = height / 2 - altoRaqueta / 2;
     computadoraY = height / 2 - altoRaqueta / 2;
     resetPelota();
-    tiempoInicial = millis(); 
+    tiempoInicial = millis();
 
     botonReinicio = createButton('Reiniciar');
     botonReinicio.position((width - botonReinicio.width) / 2, height - margenVertical - 40);
@@ -70,21 +73,21 @@ function setup() {
         estadoJuego = "jugando";
         botonIniciar.hide();
         botonReinicio.show();
-        botonMenu.show(); 
-        botonPausa.show(); 
-        tiempoInicial = millis(); 
+        botonMenu.show();
+        botonPausa.show();
+        tiempoInicial = millis();
     });
 
     botonMenu = createButton('Volver al Menú');
     botonMenu.position((width - botonMenu.width) / 2, height - margenVertical - 80);
     botonMenu.mousePressed(() => {
-        estadoJuego = "menu"; 
-        botonMenu.hide(); 
-        botonReinicio.hide(); 
-        botonIniciar.show(); 
-        botonPausa.hide(); 
+        estadoJuego = "menu";
+        botonMenu.hide();
+        botonReinicio.hide();
+        botonIniciar.show();
+        botonPausa.hide();
     });
-    botonMenu.hide(); 
+    botonMenu.hide();
 
     botonPausa = createButton('Pausa');
     botonPausa.position(margenLateral, margenVertical);
@@ -92,7 +95,24 @@ function setup() {
         juegoPausado = !juegoPausado;
         botonPausa.html(juegoPausado ? 'Reanudar' : 'Pausa');
     });
-    botonPausa.hide(); 
+    botonPausa.hide();
+
+    // Botones de control en el móvil
+    if (windowWidth < 600) {
+        // Botón de arriba
+        botonArriba = createButton('↑');
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);
+        botonArriba.size(40, 40);
+        botonArriba.mousePressed(moverArriba);
+        botonArriba.hide();  // Inicialmente oculto
+
+        // Botón de abajo
+        botonAbajo = createButton('↓');
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);
+        botonAbajo.size(40, 40);
+        botonAbajo.mousePressed(moverAbajo);
+        botonAbajo.hide();  // Inicialmente oculto
+    }
 }
 
 function draw() {
@@ -117,6 +137,12 @@ function draw() {
             text("Pausa", width / 2, height / 2);
         }
     }
+
+    // Mostrar botones solo en el móvil
+    if (windowWidth < 600) {
+        botonArriba.show();
+        botonAbajo.show();
+    }
 }
 
 function ajustarCanvas() {
@@ -124,10 +150,10 @@ function ajustarCanvas() {
     altoCanvas = windowHeight - 2 * margenVertical;
     createCanvas(anchoCanvas, altoCanvas).position(margenLateral, margenVertical);
 
-    anchoRaqueta = anchoCanvas * 0.0125; 
-    altoRaqueta = altoCanvas * 0.25; 
-    diametroPelota = anchoCanvas * 0.025; 
-    grosorMarco = altoCanvas * 0.025; 
+    anchoRaqueta = anchoCanvas * 0.0125;
+    altoRaqueta = altoCanvas * 0.25;
+    diametroPelota = anchoCanvas * 0.025;
+    grosorMarco = altoCanvas * 0.025;
 
     jugadorX = margenLateral + 15;
     computadoraX = anchoCanvas - 25;
@@ -137,10 +163,15 @@ function windowResized() {
     ajustarCanvas();
     jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
     computadoraY = constrain(computadoraY, grosorMarco, height - grosorMarco - altoRaqueta);
-    botonReinicio.position((width - botonReinicio.width) / 2, height - margenVertical - 40); 
+    botonReinicio.position((width - botonReinicio.width) / 2, height - margenVertical - 40);
     botonMenu.position((width - botonMenu.width) / 2, height - margenVertical - 80);
     if (botonIniciar) botonIniciar.position((width - botonIniciar.width) / 2, height / 2 + 40);
-    botonPausa.position(margenLateral, margenVertical); 
+    botonPausa.position(margenLateral, margenVertical);
+    
+    if (windowWidth < 600) {
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);
+    }
 }
 
 function mostrarMenu() {
@@ -153,8 +184,8 @@ function mostrarMenu() {
 
 function dibujarMarcos() {
     fill(color("#000000"));
-    rect(0, 0, width, grosorMarco); 
-    rect(0, height - grosorMarco, width, grosorMarco); 
+    rect(0, 0, width, grosorMarco);
+    rect(0, height - grosorMarco, width, grosorMarco);
 }
 
 function dibujarRaquetas() {
@@ -215,30 +246,30 @@ function verificarColisiones() {
     if (pelotaX - diametroPelota / 2 < jugadorX + anchoRaqueta && 
         pelotaY > jugadorY && pelotaY < jugadorY + altoRaqueta) {
         let puntoImpacto = pelotaY - (jugadorY + altoRaqueta / 2);
-        let factorAngulo = (puntoImpacto / (altoRaqueta / 2)) * PI / 3; 
+        let factorAngulo = (puntoImpacto / (altoRaqueta / 2)) * PI / 3;
         velocidadPelotaY = 10 * sin(factorAngulo);
         velocidadPelotaX *= -1;
-        sonidoRebote.play(); 
+        sonidoRebote.play();
     }
 
     if (pelotaX + diametroPelota / 2 > computadoraX && 
         pelotaY > computadoraY && pelotaY < computadoraY + altoRaqueta) {
         let puntoImpacto = pelotaY - (computadoraY + altoRaqueta / 2);
-        let factorAngulo = (puntoImpacto / (altoRaqueta / 2)) * PI / 3; 
+        let factorAngulo = (puntoImpacto / (altoRaqueta / 2)) * PI / 3;
         velocidadPelotaY = 10 * sin(factorAngulo);
         velocidadPelotaX *= -1;
-        sonidoRebote.play(); 
+        sonidoRebote.play();
     }
 
     if (pelotaX < 0) {
         computadoraScore++;
-        sonidoGol.play(); 
-        narrarMarcador(); 
+        sonidoGol.play();
+        narrarMarcador();
         resetPelota();
     } else if (pelotaX > width) {
         jugadorScore++;
-        sonidoGol.play(); 
-        narrarMarcador(); 
+        sonidoGol.play();
+        narrarMarcador();
         resetPelota();
     }
 }
@@ -246,13 +277,13 @@ function verificarColisiones() {
 function verificarTiempo() {
     if (millis() - tiempoInicial >= duracionPartida) {
         mostrarGanador();
-        estadoJuego = "menu"; 
-        botonReinicio.hide(); 
-        botonMenu.hide(); 
-        botonIniciar.show(); 
-        botonPausa.hide(); 
-        resetPelota(); 
-        jugadorScore = 0; 
+        estadoJuego = "menu";
+        botonReinicio.hide();
+        botonMenu.hide();
+        botonIniciar.show();
+        botonPausa.hide();
+        resetPelota();
+        jugadorScore = 0;
         computadoraScore = 0;
     }
 }
@@ -286,15 +317,19 @@ function resetPelota() {
 function resetPartida() {
     jugadorScore = 0;
     computadoraScore = 0;
-    tiempoInicial = millis(); 
-    resetPelota(); 
+    tiempoInicial = millis();
+    resetPelota();
 }
 
-function touchMoved() {
-    if (estadoJuego === "jugando" && !juegoPausado) {
-        jugadorY = touchY - altoRaqueta / 2;
-        jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
-    }
+// Funciones para mover la raqueta con los botones
+function moverArriba() {
+    jugadorY -= 20;
+    jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
+}
+
+function moverAbajo() {
+    jugadorY += 20;
+    jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
 }
 
 function keyPressed() {

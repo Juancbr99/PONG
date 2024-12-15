@@ -102,14 +102,12 @@ function setup() {
     if (windowWidth < 600) {
         // Botón de arriba
         botonArriba = createButton('↑');
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);  // Ajustado aquí
         botonArriba.size(40, 40);
         botonArriba.mousePressed(moverArriba);
         botonArriba.hide();  // Inicialmente oculto
 
         // Botón de abajo
         botonAbajo = createButton('↓');
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);  // Ajustado aquí
         botonAbajo.size(40, 40);
         botonAbajo.mousePressed(moverAbajo);
         botonAbajo.hide();  // Inicialmente oculto
@@ -143,13 +141,15 @@ function draw() {
     if (windowWidth < 600) {
         botonArriba.show();
         botonAbajo.show();
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 50);  // Ajustado aquí
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + 10);  // Ajustado aquí
     }
 }
 
 function ajustarCanvas() {
-    anchoCanvas = windowWidth - 2 * margenLateral;
-    altoCanvas = windowHeight - 2 * margenVertical;
-    createCanvas(anchoCanvas, altoCanvas).position(margenLateral, margenVertical);
+    anchoCanvas = windowWidth;
+    altoCanvas = windowHeight;
+    createCanvas(anchoCanvas, altoCanvas).position(0, 0);
 
     anchoRaqueta = anchoCanvas * 0.0125;
     altoRaqueta = altoCanvas * 0.25;
@@ -171,13 +171,11 @@ function windowResized() {
 
     // Ajuste de la posición de los botones para el movimiento en dispositivos móviles
     if (windowWidth < 600) {
-        // El botón de "arriba" debe estar debajo del botón de pausa
-        botonArriba.position(margenLateral, margenVertical + botonPausa.height + 10);
-        
-        // El botón de "abajo" debe estar en la parte inferior del campo de juego
-        botonAbajo.position((width - botonAbajo.width) / 2, height - margenVertical - botonAbajo.height - 20);
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 50);  // Ajustado aquí
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + 10);  // Ajustado aquí
     }
 }
+
 function mostrarMenu() {
     background(fondo);
     textSize(64);

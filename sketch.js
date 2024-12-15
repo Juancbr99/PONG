@@ -41,6 +41,8 @@ let estadoJuego = "menu";
 let botonIniciar;
 let juegoPausado = false; 
 
+let jugadorUltimaPosicionY; 
+
 function preload() {
     fondo = loadImage('Imagenes/fondo1.png');
     barraJugador = loadImage('Imagenes/barra1.png');
@@ -57,7 +59,6 @@ function setup() {
     resetPelota();
     tiempoInicial = millis(); 
 
-    
     botonReinicio = createButton('Reiniciar');
     botonReinicio.position((width - botonReinicio.width) / 2, height - margenVertical - 40);
     botonReinicio.mousePressed(resetPartida);
@@ -119,12 +120,10 @@ function draw() {
 }
 
 function ajustarCanvas() {
-    
     anchoCanvas = windowWidth - 2 * margenLateral;
     altoCanvas = windowHeight - 2 * margenVertical;
     createCanvas(anchoCanvas, altoCanvas).position(margenLateral, margenVertical);
 
-    
     anchoRaqueta = anchoCanvas * 0.0125; 
     altoRaqueta = altoCanvas * 0.25; 
     diametroPelota = anchoCanvas * 0.025; 
@@ -293,9 +292,10 @@ function resetPartida() {
 
 function touchMoved() {
     if (estadoJuego === "jugando" && !juegoPausado) {
-        let deltaY = touchY - jugadorY - altoRaqueta / 2; 
-        jugadorY += deltaY * 0.2;  
+        let deltaY = touchY - jugadorUltimaPosicionY; 
+        jugadorY += deltaY * 0.2; // Control de velocidad sensible al deslizamiento
         jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
+        jugadorUltimaPosicionY = touchY;
     }
 }
 

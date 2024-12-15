@@ -147,16 +147,10 @@ function draw() {
 }
 
 function ajustarCanvas() {
-    // Si la pantalla está en modo horizontal
-    if (windowWidth > windowHeight) {
-        // En modo horizontal, aseguramos que el canvas se quede fijo
-        createCanvas(windowWidth, windowHeight);
-    } else {
-        // Si está en modo vertical, ajustamos el canvas
-        anchoCanvas = windowWidth - 2 * margenLateral;
-        altoCanvas = windowHeight - 2 * margenVertical;
-        createCanvas(anchoCanvas, altoCanvas).position(margenLateral, margenVertical);
-    }
+    anchoCanvas = windowWidth - 2 * margenLateral;
+    altoCanvas = windowHeight - 2 * margenVertical;
+    createCanvas(anchoCanvas, altoCanvas).position(margenLateral, margenVertical);
+
     anchoRaqueta = anchoCanvas * 0.0125;
     altoRaqueta = altoCanvas * 0.25;
     diametroPelota = anchoCanvas * 0.025;
@@ -175,23 +169,15 @@ function windowResized() {
     if (botonIniciar) botonIniciar.position((width - botonIniciar.width) / 2, height / 2 + 40);
     botonPausa.position(margenLateral, margenVertical);
 
-    // Ajuste para dispositivos móviles
+    // Ajuste de la posición de los botones para el movimiento en dispositivos móviles
     if (windowWidth < 600) {
-        // En orientación horizontal, evitamos que la pantalla se mueva hacia arriba o abajo
-        if (windowHeight < windowWidth) {
-            // Establecer un tamaño de canvas fijo
-            createCanvas(windowWidth, windowHeight);
-            // Ajustamos la posición de la raqueta para que quede centrada entre los botones
-            botonArriba.position((width - botonArriba.width) / 2, jugadorY - 40);
-            botonAbajo.position((width - botonAbajo.width) / 2, jugadorY + altoRaqueta + 10);
-        } else {
-            // Si es vertical, se ajustan los botones de la raqueta a la posición normal
-            botonArriba.position(margenLateral, margenVertical + botonPausa.height + 10);
-            botonAbajo.position((width - botonAbajo.width) / 2, height - margenVertical - botonAbajo.height - 20);
-        }
+        // El botón de "arriba" debe estar debajo del botón de pausa
+        botonArriba.position(margenLateral, margenVertical + botonPausa.height + 10);
+        
+        // El botón de "abajo" debe estar en la parte inferior del campo de juego
+        botonAbajo.position((width - botonAbajo.width) / 2, height - margenVertical - botonAbajo.height - 20);
     }
 }
-
 function mostrarMenu() {
     background(fondo);
     textSize(64);

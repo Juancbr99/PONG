@@ -101,19 +101,33 @@ function setup() {
     if (windowWidth < 600) {
         // Botón de arriba
         botonArriba = createButton('↑');
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 60); // Subimos los botones un poco más
         botonArriba.size(40, 40);
         botonArriba.mousePressed(moverArriba);
         botonArriba.hide();  // Inicialmente oculto
 
         // Botón de abajo
         botonAbajo = createButton('↓');
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + 20); // Ajustamos la posición
         botonAbajo.size(40, 40);
         botonAbajo.mousePressed(moverAbajo);
         botonAbajo.hide();  // Inicialmente oculto
     }
 }
+
+function windowResized() {
+    ajustarCanvas();
+    jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
+    computadoraY = constrain(computadoraY, grosorMarco, height - grosorMarco - altoRaqueta);
+    botonReinicio.position((width - botonReinicio.width) / 2, height - margenVertical - 40);
+    botonMenu.position((width - botonMenu.width) / 2, height - margenVertical - 80);
+    if (botonIniciar) botonIniciar.position((width - botonIniciar.width) / 2, height / 2 + 40);
+    botonPausa.position(margenLateral, margenVertical);
+    
+    if (windowWidth < 600) {
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 60); // Subimos los botones
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + 20); // Ajustamos la posición
+    }
 
 function draw() {
     if (estadoJuego === "menu") {

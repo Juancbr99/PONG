@@ -145,12 +145,20 @@ function draw() {
         botonAbajo.show();
     }
 }
-
 function ajustarCanvas() {
-    anchoCanvas = windowWidth - 2 * margenLateral;
-    altoCanvas = windowHeight - 2 * margenVertical;
+    // Ajustamos el canvas dependiendo de la orientación
+    if (windowWidth > windowHeight) { // Modo horizontal
+        anchoCanvas = windowWidth;
+        altoCanvas = windowHeight;
+    } else { // Modo vertical (por si se gira el dispositivo)
+        anchoCanvas = windowWidth;
+        altoCanvas = windowHeight;
+    }
+
+    // Crear el canvas con el tamaño ajustado
     createCanvas(anchoCanvas, altoCanvas).position(margenLateral, margenVertical);
 
+    // Ajustar el tamaño de la raqueta y la pelota según el tamaño del canvas
     anchoRaqueta = anchoCanvas * 0.0125;
     altoRaqueta = altoCanvas * 0.25;
     diametroPelota = anchoCanvas * 0.025;
@@ -164,6 +172,8 @@ function windowResized() {
     ajustarCanvas();
     jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
     computadoraY = constrain(computadoraY, grosorMarco, height - grosorMarco - altoRaqueta);
+
+    // Ajuste de los botones
     botonReinicio.position((width - botonReinicio.width) / 2, height - margenVertical - 40);
     botonMenu.position((width - botonMenu.width) / 2, height - margenVertical - 80);
     if (botonIniciar) botonIniciar.position((width - botonIniciar.width) / 2, height / 2 + 40);

@@ -292,10 +292,8 @@ function resetPartida() {
 
 function touchMoved() {
     if (estadoJuego === "jugando" && !juegoPausado) {
-        let deltaY = touchY - jugadorUltimaPosicionY; 
-        jugadorY += deltaY * 0.2; // Control de velocidad sensible al deslizamiento
+        jugadorY = touchY - altoRaqueta / 2;
         jugadorY = constrain(jugadorY, grosorMarco, height - grosorMarco - altoRaqueta);
-        jugadorUltimaPosicionY = touchY;
     }
 }
 

@@ -31,7 +31,7 @@ let sonidoRebote;
 let sonidoGol;
 
 let tiempoInicial;
-let duracionPartida = 0.5 * 60 * 1000; 
+let duracionPartida = 2.5 * 60 * 1000; 
 
 let botonReinicio;
 let botonMenu; 

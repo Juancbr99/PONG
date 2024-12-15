@@ -169,12 +169,20 @@ function windowResized() {
     if (botonIniciar) botonIniciar.position((width - botonIniciar.width) / 2, height / 2 + 40);
     botonPausa.position(margenLateral, margenVertical);
 
-    // Alineación de botones de movimiento para móviles
+    // Ajuste de la posición de los botones para el movimiento
     if (windowWidth < 600) {
-        // Ajustamos la posición vertical de los botones de movimiento
-        let distanciaBotones = 40;  // Espacio entre los botones de arriba y abajo
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40 - distanciaBotones);
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta + distanciaBotones);
+        // Si el dispositivo está en modo horizontal
+        if (windowWidth > windowHeight) {
+            // Ajustamos los botones para que queden alineados a la raqueta
+            let distanciaBotones = 40;  // Espacio entre los botones de arriba y abajo
+            // Centramos los botones sobre la raqueta
+            botonArriba.position((width / 2) - 20, jugadorY - distanciaBotones - 20);
+            botonAbajo.position((width / 2) - 20, jugadorY + altoRaqueta + distanciaBotones);
+        } else {
+            // En modo vertical (cuando el ancho es menor que el alto)
+            botonArriba.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY - 40);
+            botonAbajo.position(jugadorX + anchoRaqueta / 2 - 20, jugadorY + altoRaqueta);
+        }
     }
 }
 

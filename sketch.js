@@ -141,8 +141,8 @@ function draw() {
     if (windowWidth < 600) {
         botonArriba.show();
         botonAbajo.show();
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY - 60);  // Ajustado aquí
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY + altoRaqueta + 30);  // Ajustado aquí
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY - 80);  // Ajustado aquí
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY + altoRaqueta - 20 );  // Ajustado aquí
     }
 }
 
@@ -171,8 +171,8 @@ function windowResized() {
 
     // Ajuste de la posición de los botones para el movimiento en dispositivos móviles
     if (windowWidth < 600) {
-        botonArriba.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY - 60);  // Ajustado aquí
-        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY + altoRaqueta + 30);  // Ajustado aquí
+        botonArriba.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY - 80);  // Ajustado aquí
+        botonAbajo.position(jugadorX + anchoRaqueta / 2 - 15, jugadorY + altoRaqueta - 20);  // Ajustado aquí
     }
 }
 
